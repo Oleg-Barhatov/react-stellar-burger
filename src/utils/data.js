@@ -1,4 +1,10 @@
-export const data = [
+ export const ingredientsList = {
+  'bun': 'Булки',
+  'sauce': 'Соусы',
+  'filling': 'Начинки',
+};
+
+ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b1",
      "name":"Краторная булка N-200i",
@@ -16,7 +22,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b5",
      "name":"Говяжий метеорит (отбивная)",
-     "type":"main",
+     "type":"filling",
      "proteins":800,
      "fat":800,
      "carbohydrates":300,
@@ -30,7 +36,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b6",
      "name":"Биокотлета из марсианской Магнолии",
-     "type":"main",
+     "type":"filling",
      "proteins":420,
      "fat":142,
      "carbohydrates":242,
@@ -58,7 +64,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b4",
      "name":"Мясо бессмертных моллюсков Protostomia",
-     "type":"main",
+     "type":"filling",
      "proteins":433,
      "fat":244,
      "carbohydrates":33,
@@ -100,7 +106,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9bc",
      "name":"Плоды Фалленианского дерева",
-     "type":"main",
+     "type":"filling",
      "proteins":20,
      "fat":5,
      "carbohydrates":55,
@@ -114,7 +120,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9bb",
      "name":"Хрустящие минеральные кольца",
-     "type":"main",
+     "type":"filling",
      "proteins":808,
      "fat":689,
      "carbohydrates":609,
@@ -142,7 +148,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9bd",
      "name":"Кристаллы марсианских альфа-сахаридов",
-     "type":"main",
+     "type":"filling",
      "proteins":234,
      "fat":432,
      "carbohydrates":111,
@@ -156,7 +162,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9be",
      "name":"Мини-салат Экзо-Плантаго",
-     "type":"main",
+     "type":"filling",
      "proteins":1,
      "fat":2,
      "carbohydrates":3,
@@ -170,7 +176,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b3",
      "name":"Филе Люминесцентного тетраодонтимформа",
-     "type":"main",
+     "type":"filling",
      "proteins":44,
      "fat":26,
      "carbohydrates":85,
@@ -184,7 +190,7 @@ export const data = [
   {
      "_id":"60666c42cc7b410027a1a9bf",
      "name":"Сыр с астероидной плесенью",
-     "type":"main",
+     "type":"sauce",
      "proteins":84,
      "fat":48,
      "carbohydrates":420,
@@ -210,3 +216,5 @@ export const data = [
      "__v":0
   }
 ]
+
+

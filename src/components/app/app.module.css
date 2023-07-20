@@ -4,4 +4,12 @@
   height: 100vh;
   background-color: #131316;
   color: #f2f2f3;
+  padding: 40px 40px 0 40px;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
 }
