@@ -7,7 +7,7 @@ function Header () {
       <nav className={`${headerStyles.nav} pt-4 pb-4`}>
         <ul className={headerStyles.ul}>
           <li>
-          <Button htmlType="button" size="medium" type="secondary" extraClass={`${headerStyles.button} pr-5 pl-5 text_color_primary`}>
+            <Button htmlType="button" size="medium" type="secondary" extraClass={`${headerStyles.button} pr-5 pl-5 text_color_primary`}>
               <BurgerIcon type="primary"/>
               Конструктор
             </Button>
@@ -16,7 +16,7 @@ function Header () {
             <Button htmlType="button" size="medium" type="secondary" extraClass={`${headerStyles.button} pr-5 pl-5 text_color_inactive`}>
                 <ListIcon type="secondary"/>
                 Лента заказов
-              </Button>
+            </Button>
           </li>
         </ul>
           <div className={headerStyles.logo}>

@@ -20,8 +20,8 @@ function BurgerIngredients ({data, ingredientsList}) {
         {
           Object.keys(ingredientsList).map((item, index) => {
             return (
-              <li>
-                <Tab key = {index}
+              <li key = {index}> 
+                <Tab 
                     value = {ingredientsList[item]}
                     active = {current === ingredientsList[item]}
                     onClick = {setCurrent}>

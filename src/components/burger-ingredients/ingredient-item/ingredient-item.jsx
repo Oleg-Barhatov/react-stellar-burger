@@ -1,7 +1,7 @@
 import ItemStyles from './ingredient-item.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DataPropType } from '../../../utils/prop-types';
-import PropTypes from "prop-types";
+
 
 IngredientItem.propTypes = {
   data: DataPropType.isRequired
