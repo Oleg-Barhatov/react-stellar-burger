@@ -14,13 +14,11 @@ function BurgerConstructor ({data}) {
 
   return (
 
-    
-    
     <section className={`${constructorStyles.section} pt-25`}>
       <Bun position='top' data={bun}/>
       <ul className={`${constructorStyles.ul} custom-scroll`}>
         {
-          data.filter(item => item.type === "filling" || item.type ===  "sauce").map((data, index) => {
+          data.filter(item => item.type === "main" || item.type ===  "sauce").map((data, index) => {
             return (<ConstructorItem data={data} key={index}/>)
           })
         }
