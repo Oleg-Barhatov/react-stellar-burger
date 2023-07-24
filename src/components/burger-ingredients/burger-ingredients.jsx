@@ -50,7 +50,7 @@ function BurgerIngredients ({data, ingredientsList}) {
           })
         }
         </ul>
-        <h2 className={'text text_type_main-medium pb-6'}>{ingredientsList.filling}</h2>
+        <h2 className={'text text_type_main-medium pb-6'}>{ingredientsList.main}</h2>
         <ul className={`${ingredientsStyle.ul}`}>
         {
           data.filter(item => item.type === Object.keys(ingredientsList)[2] ).map(data =>{

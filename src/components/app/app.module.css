@@ -13,3 +13,13 @@
   justify-content: center;
   gap: 40px;
 }
+
+.load {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}

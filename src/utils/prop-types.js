@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 export const TabPropType = PropTypes.shape({
   bun: PropTypes.string.isRequired,
   sauce: PropTypes.string.isRequired,
-  filling: PropTypes.string.isRequired,
+  main: PropTypes.string.isRequired,
 });
 
 export const DataPropType = PropTypes.shape({

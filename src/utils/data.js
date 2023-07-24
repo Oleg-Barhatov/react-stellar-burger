@@ -1,10 +1,10 @@
  export const ingredientsList = {
   'bun': 'Булки',
   'sauce': 'Соусы',
-  'filling': 'Начинки',
+  'main': 'Начинки',
 };
 
-export const urlApi = 'https://norma.nomoreparties.space/api/ingredients';
+export const urlApiIngridients = 'https://norma.nomoreparties.space/api/ingredients';
 
 export const getResponseData = (res) => {
   if (!res.ok) {
