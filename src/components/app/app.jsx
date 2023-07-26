@@ -61,7 +61,6 @@ function App() {
       <Modal visible={visible} closePopup={ () => setVisible(!visible) }>
         <OrderDetails/>
       </Modal>
-      
     </div>
   );
 }

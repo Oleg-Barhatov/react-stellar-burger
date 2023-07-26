@@ -1,4 +1,4 @@
-import constructorStyles from './burger-constructor.module.css'
+import styles from './burger-constructor.module.css'
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorItem from './constructor-item/constructor-item';
 import { DataPropType } from '../../utils/prop-types';
@@ -14,9 +14,9 @@ function BurgerConstructor ({data, visible}) {
 
   return (
 
-    <section className={`${constructorStyles.section} pt-25`}>
+    <section className={`${styles.section} pt-25`}>
       <Bun position='top' data={bun}/>
-      <ul className={`${constructorStyles.ul} custom-scroll`}>
+      <ul className={`${styles.ul} custom-scroll`}>
         {
           data.filter(item => item.type === "main" || item.type ===  "sauce").map((data, index) => {
             return (<ConstructorItem data={data} key={index}/>)
@@ -26,8 +26,8 @@ function BurgerConstructor ({data, visible}) {
 
       <Bun position='bottom' data={bun}/>
 
-      <div className={`${constructorStyles.total} mt-6 mr-4`}>
-        <div className={`${constructorStyles.container}`}>
+      <div className={`${styles.total} mt-6 mr-4`}>
+        <div className={`${styles.container}`}>
           <p className='text text_type_digits-medium'>610</p>
           <CurrencyIcon type="primary"/>
         </div>

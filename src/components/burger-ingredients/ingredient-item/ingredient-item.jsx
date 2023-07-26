@@ -1,14 +1,9 @@
-import ItemStyles from './ingredient-item.module.css';
+import styles from './ingredient-item.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DataPropType } from '../../../utils/prop-types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
 import {useState} from 'react'
-
-
-IngredientItem.propTypes = {
-  data: DataPropType.isRequired
-}
 
 function IngredientItem ({data}) {
   const [visible, setVisible] = useState(false);
@@ -16,21 +11,21 @@ function IngredientItem ({data}) {
   return (
     <>
     
-      <li className={`${ItemStyles.li}`} onClick={() => setVisible(!visible)}>
-        <Counter className={`${ItemStyles.count}`} 
+      <li className={`${styles.li}`} onClick={() => setVisible(!visible)}>
+        <Counter className={`${styles.count}`} 
                  count={1} 
                  size="default" 
                  extraClass="m-1"
         />
         <img src={data.image} 
              alt={data.name} 
-             className={`${ItemStyles.image}`}>
+             className={`${styles.image}`}>
         </img>
-        <div className={`${ItemStyles.container}`}>
+        <div className={`${styles.container}`}>
           <p className='text text_type_digits-default '>{data.price}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <p className={`${ItemStyles.paragraph} text text_type_main-default`}>{data.name}</p>
+        <p className={`${styles.paragraph} text text_type_main-default`}>{data.name}</p>
       </li>
 
       <Modal visible={visible} closePopup={ () => setVisible(!visible) }>
@@ -40,6 +35,10 @@ function IngredientItem ({data}) {
 
     </>
   )
+}
+
+IngredientItem.propTypes = {
+  data: DataPropType.isRequired
 }
 
 export default IngredientItem;

@@ -1,5 +1,5 @@
 import { ConstructorElement, DragIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
-import ConstructorItemStyles from './constructor-item.module.css'
+import styles from './constructor-item.module.css'
 import { DataPropType } from '../../../utils/prop-types';
 
 
@@ -9,7 +9,7 @@ ConstructorItem.propTypes = {
 
 function ConstructorItem ({data}) {
   return (
-    <li className={`${ConstructorItemStyles.li}`}>
+    <li className={`${styles.li}`}>
       <DragIcon type="primary"/>
       <ConstructorElement
             text={data.name}
