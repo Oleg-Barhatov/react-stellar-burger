@@ -9,7 +9,7 @@ BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(DataPropType).isRequired
 }
 
-function BurgerConstructor ({data}) {
+function BurgerConstructor ({data, visible}) {
   const bun = data.filter(item => item.type === 'bun')
 
   return (
@@ -31,7 +31,7 @@ function BurgerConstructor ({data}) {
           <p className='text text_type_digits-medium'>610</p>
           <CurrencyIcon type="primary"/>
         </div>
-        <Button htmlType="button" type="primary" size="large">
+        <Button htmlType="button" type="primary" size="large" onClick={visible}>
           Оформить заказ
         </Button>
       </div>
