@@ -18,7 +18,7 @@ function App() {
   const [visible, setVisible] = useState(false);
  
   useEffect(() => {
-    const getFilms = () => {
+    const getData = () => {
       setLoading(true)
     fetch(urlApiIngridients)
       .then(res => getResponseData(res))
@@ -26,7 +26,7 @@ function App() {
       .catch(err => setError(err))
       .finally(() => setLoading(false))
     };
-    getFilms()
+    getData()
   }, [])
   
   return (
