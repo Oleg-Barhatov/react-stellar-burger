@@ -1,5 +1,6 @@
 import styles from './catch.module.css'
 import img from '../../images/error.svg'
+import PropTypes from "prop-types";
 
 const Catch = ({error}) => {
   return (
@@ -8,6 +9,10 @@ const Catch = ({error}) => {
       <img className={styles.img} src={img} alt="Ошибка загрузки"/>
     </section>
   );
+};
+
+Catch.propTypes = {
+  error: PropTypes.string.isRequired,
 };
 
 export default Catch;

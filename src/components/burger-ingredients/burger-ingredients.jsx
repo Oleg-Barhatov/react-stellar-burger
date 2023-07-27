@@ -5,12 +5,16 @@ import IngredientItem from './ingredient-item/ingredient-item';
 import { DataPropType, TabPropType } from '../../utils/prop-types';
 import PropTypes from "prop-types";
 
+
 function BurgerIngredients ({data, tapList}) {
   const [current, setCurrent] = useState(tapList.bun)
 
   const bun = data.filter(item => item.type === Object.keys(tapList)[0])
   const sauce = data.filter(item => item.type === Object.keys(tapList)[1])
   const main = data.filter(item => item.type === Object.keys(tapList)[2] )
+  const scrollTab = item => {
+    document.getElementById(item).scrollIntoView({ behavior: 'smooth' });
+  }
 
   return (
     <section className={`${styles.burgerIngredients}`}>
@@ -24,7 +28,7 @@ function BurgerIngredients ({data, tapList}) {
                 <Tab 
                     value = {tapList[item]}
                     active = {current === tapList[item]}
-                    onClick = {() => setCurrent(tapList[item])}>
+                    onClick = {() => setCurrent(tapList[item], scrollTab(item))}>
                   {tapList[item]}
                 </Tab>
               </li>
@@ -34,19 +38,19 @@ function BurgerIngredients ({data, tapList}) {
       </ul>
 
       <div className={`${styles.field} custom-scroll`}>
-        <h2 className={'text text_type_main-medium pb-6'} >{tapList.bun}</h2>
+        <h2 className={'text text_type_main-medium pb-6'} id={Object.keys(tapList)[0]}>{tapList.bun}</h2>
         <ul className={`${styles.ul} pb-10`}>
         {
           bun.map(data =>{ return (<IngredientItem data={data} key={data._id} />)})
         }
         </ul>
-        <h2 className={'text text_type_main-medium pb-6'}>{tapList.sauce}</h2>
+        <h2 className={'text text_type_main-medium pb-6'} id={Object.keys(tapList)[1]}>{tapList.sauce}</h2>
         <ul className={`${styles.ul} pb-10`}>
         {
           sauce.map(data =>{ return (<IngredientItem data={data} key={data._id}/>)})
         }
         </ul>
-        <h2 className={'text text_type_main-medium pb-6'}>{tapList.main}</h2>
+        <h2 className={'text text_type_main-medium pb-6'} id={Object.keys(tapList)[2]}>{tapList.main}</h2>
         <ul className={`${styles.ul}`}>
         {
           main.map(data =>{return (<IngredientItem data={data} key={data._id}/>)})

@@ -4,8 +4,7 @@ import Header from "../app-header/app-header";
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import {useState, useEffect} from 'react'
-import { getResponseData } from "../../utils/data";
-import { urlApiIngridients } from "../../utils/data";
+import getIngredients from "../../utils/api";
 import Loader from "../loader/loader";
 import Catch from "../catch/catch";
 import Modal from "../modal/modal";
@@ -20,8 +19,7 @@ function App() {
   useEffect(() => {
     const getData = () => {
       setLoading(true)
-    fetch(urlApiIngridients)
-      .then(res => getResponseData(res))
+      getIngredients()
       .then(data => setData(data.data))
       .catch(err => setError(err))
       .finally(() => setLoading(false))
@@ -54,7 +52,7 @@ function App() {
         !loading && data.length  &&
         <main className={styles.main}>
           <BurgerIngredients data={data} tapList={tapList}/>
-          <BurgerConstructor data={data} visible={ () => setVisible(!visible) }/> 
+          <BurgerConstructor data={data} setVisible={ () => setVisible(!visible) }/> 
         </main>
       }
 

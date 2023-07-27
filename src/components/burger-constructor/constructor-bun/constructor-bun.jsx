@@ -1,4 +1,6 @@
 import { ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from "prop-types";
+import { DataPropType } from '../../../utils/prop-types';
 
 function Bun ({data, position}) {
   return (
@@ -12,6 +14,11 @@ function Bun ({data, position}) {
         />
       </div>
   )
+}
+
+Bun.propTypes = {
+  data: PropTypes.arrayOf(DataPropType).isRequired,
+  position: PropTypes.string.isRequired,
 }
 
 export default Bun;

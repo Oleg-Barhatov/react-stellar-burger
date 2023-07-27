@@ -6,10 +6,11 @@ import PropTypes from "prop-types";
 import Bun from './constructor-bun/constructor-bun';
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(DataPropType).isRequired
+  data: PropTypes.arrayOf(DataPropType).isRequired,
+  setVisible: PropTypes.func.isRequired,
 }
 
-function BurgerConstructor ({data, visible}) {
+function BurgerConstructor ({data, setVisible}) {
   const bun = data.filter(item => item.type === 'bun')
   const structure = data.filter(item => item.type === "main" || item.type ===  "sauce")
   
@@ -32,7 +33,7 @@ function BurgerConstructor ({data, visible}) {
           <p className='text text_type_digits-medium'>610</p>
           <CurrencyIcon type="primary"/>
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={visible}>
+        <Button htmlType="button" type="primary" size="large" onClick={setVisible}>
           Оформить заказ
         </Button>
       </div>
