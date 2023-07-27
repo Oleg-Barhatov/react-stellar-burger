@@ -11,14 +11,15 @@ BurgerConstructor.propTypes = {
 
 function BurgerConstructor ({data, visible}) {
   const bun = data.filter(item => item.type === 'bun')
-
+  const structure = data.filter(item => item.type === "main" || item.type ===  "sauce")
+  
   return (
 
     <section className={`${styles.section} pt-25`}>
       <Bun position='top' data={bun}/>
       <ul className={`${styles.ul} custom-scroll`}>
         {
-          data.filter(item => item.type === "main" || item.type ===  "sauce").map((data, index) => {
+          structure.map((data, index) => {
             return (<ConstructorItem data={data} key={index}/>)
           })
         }

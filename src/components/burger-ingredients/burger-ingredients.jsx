@@ -8,6 +8,10 @@ import PropTypes from "prop-types";
 function BurgerIngredients ({data, tapList}) {
   const [current, setCurrent] = useState(tapList.bun)
 
+  const bun = data.filter(item => item.type === Object.keys(tapList)[0])
+  const sauce = data.filter(item => item.type === Object.keys(tapList)[1])
+  const main = data.filter(item => item.type === Object.keys(tapList)[2] )
+
   return (
     <section className={`${styles.burgerIngredients}`}>
 
@@ -33,25 +37,19 @@ function BurgerIngredients ({data, tapList}) {
         <h2 className={'text text_type_main-medium pb-6'} >{tapList.bun}</h2>
         <ul className={`${styles.ul} pb-10`}>
         {
-          data.filter(item => item.type === Object.keys(tapList)[0] ).map(data =>{
-            return (<IngredientItem data={data} key={data._id} />)
-          })
+          bun.map(data =>{ return (<IngredientItem data={data} key={data._id} />)})
         }
         </ul>
         <h2 className={'text text_type_main-medium pb-6'}>{tapList.sauce}</h2>
         <ul className={`${styles.ul} pb-10`}>
         {
-          data.filter(item => item.type === Object.keys(tapList)[1] ).map(data =>{
-            return (<IngredientItem data={data} key={data._id}/>)
-          })
+          sauce.map(data =>{ return (<IngredientItem data={data} key={data._id}/>)})
         }
         </ul>
         <h2 className={'text text_type_main-medium pb-6'}>{tapList.main}</h2>
         <ul className={`${styles.ul}`}>
         {
-          data.filter(item => item.type === Object.keys(tapList)[2] ).map(data =>{
-            return (<IngredientItem data={data} key={data._id}/>)
-          })
+          main.map(data =>{return (<IngredientItem data={data} key={data._id}/>)})
         }
         </ul>
           
