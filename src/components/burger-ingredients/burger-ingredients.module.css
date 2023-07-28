@@ -1,0 +1,26 @@
+.burgerIngredients {
+  max-width: 600px;
+}
+
+.tab {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.ul {
+  display: flex;
+  gap: 32px 24px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  margin: 0;
+  padding-left: 2.73%;
+  list-style: none;
+}
+
+.field {
+  max-height: 600px;
+  overflow-y: auto;
+}

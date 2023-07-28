@@ -1,15 +1,64 @@
 import styles from "./app.module.css";
-import { data } from "../../utils/data";
+import {  tapList } from "../../utils/data";
+import Header from "../app-header/app-header";
+import BurgerIngredients from '../burger-ingredients/burger-ingredients'
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import {useState, useEffect} from 'react'
+import getIngredients from "../../utils/api";
+import Loader from "../loader/loader";
+import Catch from "../catch/catch";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [data, setData] = useState([]);
+  const [visible, setVisible] = useState(false);
+ 
+  useEffect(() => {
+    const getData = () => {
+      setLoading(true)
+      getIngredients()
+      .then(data => setData(data.data))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+    };
+    getData()
+  }, [])
+  
   return (
+
     <div className={styles.app}>
-      <pre style={{
-      	margin: "auto",
-      	fontSize: "1.5rem"
-      }}>
-      	Измените src/components/app/app.jsx и сохраните для обновления.
-      </pre>
+
+      <Header/>
+
+      {
+        loading && 
+        <div className={styles.load}>
+          <Loader/>
+          <h2 className='text text_type_main-large'>Загружаю ингредиенты...</h2>
+        </div>
+      }
+
+      {
+        error !== '' && 
+          <div className={styles.load}>
+            <Catch error={error}/>
+          </div>
+      }
+
+      { 
+        !loading && data.length  &&
+        <main className={styles.main}>
+          <BurgerIngredients data={data} tapList={tapList}/>
+          <BurgerConstructor data={data} setVisible={ () => setVisible(!visible) }/> 
+        </main>
+      }
+
+      <Modal visible={visible} closePopup={ () => setVisible(!visible) }>
+        <OrderDetails/>
+      </Modal>
     </div>
   );
 }

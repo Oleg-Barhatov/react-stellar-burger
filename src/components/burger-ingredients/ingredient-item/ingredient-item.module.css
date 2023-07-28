@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 272px;
+}
+
+.paragraph {
+  height: 48px;
+  text-align: center;
+}
+
+.image {
+  width: 240px;
+  height: 120px;
+}
+
+.count {
+  position: absolute;
+}

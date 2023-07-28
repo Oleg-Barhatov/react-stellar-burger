@@ -1,0 +1,34 @@
+.section {
+  width: 600px;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+}
+
+.ul {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 464px;
+  overflow-y: auto;
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.total {
+  width: 568px;
+  display: flex;
+  gap: 40px;
+  justify-content: flex-end;
+}
+
+
+
