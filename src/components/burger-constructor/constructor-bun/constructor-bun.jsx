@@ -1,6 +1,5 @@
 import { ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from "prop-types";
-import { DataPropType } from '../../../utils/prop-types';
 
 function Bun ({data, position}) {
   return (
@@ -8,16 +7,16 @@ function Bun ({data, position}) {
         <ConstructorElement
           type={position}
           isLocked={true}
-          text={`${data[0].name} ${position === 'top' ? '(верх)' : '(низ)'}`}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={`${data.name} ${position === 'top' ? '(верх)' : '(низ)'}`}
+          price={data.price}
+          thumbnail={data.image}
         />
       </div>
   )
 }
 
 Bun.propTypes = {
-  data: PropTypes.arrayOf(DataPropType).isRequired,
+  data: PropTypes.object.isRequired,
   position: PropTypes.string.isRequired,
 }
 

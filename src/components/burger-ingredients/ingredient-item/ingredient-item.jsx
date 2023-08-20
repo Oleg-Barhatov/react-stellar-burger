@@ -3,15 +3,34 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { DataPropType } from '../../../utils/prop-types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
-import {useState} from 'react'
+import {useState, useContext} from 'react'
+import { BurgerIngredientsContext } from '../../../services/appContext';
+import { v4 as uuidv4 } from 'uuid';
 
 function IngredientItem ({data}) {
   const [visible, setVisible] = useState(false);
+  const {ingredient, setIngredient} = useContext(BurgerIngredientsContext)
+
+  const addIngredient = () => {
+    if (data.type === 'bun') {
+      setIngredient({
+        ...ingredient,
+        bun: {...data, key: uuidv4()},
+      });
+    } else  {
+      setIngredient({
+        ...ingredient,
+        fillings: [
+          ...ingredient.fillings,
+          {...data, key: uuidv4()},
+        ]
+      });
+    }}
   
   return (
     <>
     
-      <li className={`${styles.li}`} onClick={() => setVisible(!visible)}>
+      <li className={`${styles.li}`} onClick={addIngredient}>
         <Counter className={`${styles.count}`} 
                  count={1} 
                  size="default" 
