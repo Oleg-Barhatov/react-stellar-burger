@@ -3,7 +3,7 @@ import {  tapList } from "../../utils/data";
 import Header from "../app-header/app-header";
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import {useState, useEffect, useReducer} from 'react'
+import {useState, useEffect} from 'react'
 import { getIngredients } from "../../utils/api";
 import Loader from "../loader/loader";
 import Catch from "../catch/catch";
@@ -17,27 +17,7 @@ function App() {
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [ingredient, setIngredient] = useState({ bun: null, fillings: [] });
-  const initialState = { total: 0 };
-  const [stateTotal, dispatchTotal] = useReducer(reducer, initialState);
-  const [stateButton, setStateButton] = useState(false)
   const [stateOrder, setStateOrder] = useState()
-  
-  function reducer(state, ingredient) {
-    const bun = ingredient.bun ? ingredient.bun.price * 2 : initialState.total
-    const filling = ingredient.fillings.reduce((previousValue, filling) => previousValue + filling.price, initialState.total)
-    return  { total: filling + bun }
-  }
-
-  const activeButton = () => {
-    if (ingredient.bun !== null && ingredient.fillings.length !== 0) {
-      return setStateButton(true)
-    }
-  }
-
-  useEffect(() => {
-    dispatchTotal(ingredient)
-    activeButton()
-  }, [ingredient])
 
   useEffect(() => {
     const getData = () => {
@@ -74,7 +54,7 @@ function App() {
       { 
         !loading && data.length  &&
         <main className={styles.main}>
-          <BurgerIngredientsContext.Provider value={{data, ingredient, setIngredient, visible, setVisible, stateTotal, dispatchTotal, stateButton, stateOrder, setStateOrder,setStateButton}}>
+          <BurgerIngredientsContext.Provider value={{data, ingredient, setIngredient, visible, setVisible, stateOrder, setStateOrder}}>
             <BurgerIngredients   tapList={tapList}/>
             <BurgerConstructor/> 
           </BurgerIngredientsContext.Provider>

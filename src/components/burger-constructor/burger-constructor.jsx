@@ -1,13 +1,34 @@
 import styles from './burger-constructor.module.css'
-import { useContext}  from 'react'
+import { useContext, useState, useEffect, useReducer}  from 'react'
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorItem from './constructor-item/constructor-item';
 import Bun from './constructor-bun/constructor-bun';
 import { BurgerIngredientsContext } from '../../services/appContext';
 import { getNumOrder } from '../../utils/api';
 
+const initialState = {total: 0 };
+
+function reducer(state, action) {
+  const bun = action.bun ? action.bun.price * 2 : initialState.total
+  const filling = action.fillings.reduce((previousValue, filling) => previousValue + filling.price, initialState.total)
+  return  { total: filling + bun }
+}
+
 function BurgerConstructor () {
-  const {ingredient, visible, setVisible, stateTotal, stateButton, setStateOrder, setIngredient, setStateButton} = useContext(BurgerIngredientsContext)
+  const {ingredient, visible, setVisible, setStateOrder, setIngredient} = useContext(BurgerIngredientsContext)
+  const [stateTotal, dispatchTotal] = useReducer(reducer, initialState);
+  const [stateButton, setStateButton] = useState(false)
+
+  const activeButton = () => {
+    if (ingredient.bun !== null && ingredient.fillings.length !== 0) {
+      return setStateButton(true)
+    }
+  }
+
+  useEffect(() => {
+    dispatchTotal(ingredient)
+    activeButton()
+  }, [ingredient])
 
   const getOrder = () => {
     const filingsId = ingredient.fillings.map(filling => filling._id)
