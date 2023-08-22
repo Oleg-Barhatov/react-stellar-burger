@@ -7,8 +7,19 @@ const getResponseData = (res) => {
   return res.json();
 };
 
-export default function getIngredients() {
+function getIngredients() {
   return fetch(`${urlApiIngridients}/ingredients`)
    .then(res => getResponseData(res))
 }
 
+function getNumOrder(ingredientsId) {
+  return fetch(`${urlApiIngridients}/orders`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      'ingredients': ingredientsId
+    })
+  }).then((res) => getResponseData(res));
+}
+
+export {getIngredients, getNumOrder}

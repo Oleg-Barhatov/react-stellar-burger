@@ -1,12 +1,13 @@
-import {useState}  from 'react'
+import {useState, useContext}  from 'react'
 import styles from './burger-ingredients.module.css'
 import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientItem from './ingredient-item/ingredient-item';
-import { DataPropType, TabPropType } from '../../utils/prop-types';
-import PropTypes from "prop-types";
+import { TabPropType } from '../../utils/prop-types';
+import { BurgerIngredientsContext } from '../../services/appContext';
 
 
-function BurgerIngredients ({data, tapList}) {
+function BurgerIngredients ({ tapList}) {
+  const {data} = useContext(BurgerIngredientsContext)
   const [current, setCurrent] = useState(tapList.bun)
 
   const bun = data.filter(item => item.type === Object.keys(tapList)[0])
@@ -65,7 +66,6 @@ function BurgerIngredients ({data, tapList}) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(DataPropType).isRequired,
   tapList: TabPropType.isRequired,
 }
 

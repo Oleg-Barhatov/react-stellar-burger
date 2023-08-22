@@ -1,39 +1,86 @@
 import styles from './burger-constructor.module.css'
+import { useContext, useState, useEffect, useReducer}  from 'react'
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorItem from './constructor-item/constructor-item';
-import { DataPropType } from '../../utils/prop-types';
-import PropTypes from "prop-types";
 import Bun from './constructor-bun/constructor-bun';
+import { BurgerIngredientsContext } from '../../services/appContext';
+import { getNumOrder } from '../../utils/api';
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(DataPropType).isRequired,
-  setVisible: PropTypes.func.isRequired,
+const initialState = {total: 0 };
+
+function reducer(state, action) {
+  const bun = action.bun ? action.bun.price * 2 : initialState.total
+  const filling = action.fillings.reduce((previousValue, filling) => previousValue + filling.price, initialState.total)
+  return  { total: filling + bun }
 }
 
-function BurgerConstructor ({data, setVisible}) {
-  const bun = data.filter(item => item.type === 'bun')
-  const structure = data.filter(item => item.type === "main" || item.type ===  "sauce")
-  
+function BurgerConstructor () {
+  const {ingredient, visible, setVisible, setStateOrder, setIngredient} = useContext(BurgerIngredientsContext)
+  const [stateTotal, dispatchTotal] = useReducer(reducer, initialState);
+  const [stateButton, setStateButton] = useState(false)
+
+  const activeButton = () => {
+    if (ingredient.bun !== null && ingredient.fillings.length !== 0) {
+      return setStateButton(true)
+    }
+  }
+
+  useEffect(() => {
+    dispatchTotal(ingredient)
+    activeButton()
+  }, [ingredient])
+
+  const getOrder = () => {
+    const filingsId = ingredient.fillings.map(filling => filling._id)
+    const ingredientId = [ingredient.bun._id, filingsId, ingredient.bun._id].flat()
+    ingredient.bun !== null &&  getNumOrder(ingredientId)
+      .then(data => setStateOrder(data.order.number))
+      .catch(err => console.log(err))
+      .finally(() => setStateButton(false), setIngredient({ bun: null, fillings: [] }), setVisible(!visible) )
+  }
+
   return (
 
     <section className={`${styles.section} pt-25`}>
-      <Bun position='top' data={bun}/>
+
+      {
+        ingredient.bun 
+          ? (<Bun position='top' data={ingredient.bun}/>) 
+          : (
+              <div className={styles.bun}>
+                <p className='text_type_main-default text_color_inactive'>Тут должна быть ваша булка</p>
+              </div> 
+            ) 
+      }
+
       <ul className={`${styles.ul} custom-scroll`}>
-        {
-          structure.map((data, index) => {
-            return (<ConstructorItem data={data} key={index}/>)
-          })
+        { 
+          ingredient.fillings.length > 0 
+            ? (ingredient.fillings.map(data => <ConstructorItem data={data} key={data.key}/>)) 
+            : (
+                <div className={styles.fillings}>
+                  <p className='text_type_main-default text_color_inactive'>Перенесите ингредиенты</p>
+                </div> 
+              )
         }
       </ul>
 
-      <Bun position='bottom' data={bun}/>
+      {
+        ingredient.bun 
+          ? (<Bun position='top' data={ingredient.bun}/>) 
+          : (
+              <div className={styles.bun}>
+                <p className='text_type_main-default text_color_inactive'>Тут должна быть ваша булка</p>
+              </div> 
+            ) 
+      }
 
       <div className={`${styles.total} mt-6 mr-4`}>
         <div className={`${styles.container}`}>
-          <p className='text text_type_digits-medium'>610</p>
+          <p className='text text_type_digits-medium'>{stateTotal.total}</p>
           <CurrencyIcon type="primary"/>
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={setVisible}>
+        <Button htmlType="button" type="primary" size="large" disabled={!stateButton} onClick={getOrder}>
           Оформить заказ
         </Button>
       </div>
