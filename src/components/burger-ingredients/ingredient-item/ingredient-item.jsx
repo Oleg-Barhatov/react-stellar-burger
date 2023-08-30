@@ -3,30 +3,22 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { DataPropType } from '../../../utils/prop-types';
 import Modal from '../../modal/modal';
 import IngredientDetails from '../../ingredient-details/ingredient-details';
-import {useState, useContext} from 'react'
-import { BurgerIngredientsContext } from '../../../services/appContext';
-import { v4 as uuidv4 } from 'uuid';
+import {useState} from 'react'
+import { useDispatch } from 'react-redux';
+import { ADD_BUN, ADD_FILLING } from '../../../services/ingredient/ingredientAction';
 
 function IngredientItem ({data}) {
   const [visible, setVisible] = useState(false);
-  const {ingredient, setIngredient} = useContext(BurgerIngredientsContext)
+  const dispatch = useDispatch()
 
   const addIngredient = () => {
     if (data.type === 'bun') {
-      setIngredient({
-        ...ingredient,
-        bun: {...data, key: uuidv4()},
-      });
+      dispatch({type: ADD_BUN, payload: data}) 
     } else  {
-      setIngredient({
-        ...ingredient,
-        fillings: [
-          ...ingredient.fillings,
-          {...data, key: uuidv4()},
-        ]
-      });
-    }}
-  
+      dispatch({type: ADD_FILLING, payload: data})
+    }
+  }
+
   return (
     <>
     

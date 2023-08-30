@@ -1,18 +1,20 @@
-import {useState, useContext}  from 'react'
+import {useState}  from 'react'
 import styles from './burger-ingredients.module.css'
 import {Tab}  from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientItem from './ingredient-item/ingredient-item';
 import { TabPropType } from '../../utils/prop-types';
-import { BurgerIngredientsContext } from '../../services/appContext';
+import { useSelector } from 'react-redux';
+import { getData } from '../../utils/selectors';
 
 
 function BurgerIngredients ({ tapList}) {
-  const {data} = useContext(BurgerIngredientsContext)
+  const data = useSelector(getData)
   const [current, setCurrent] = useState(tapList.bun)
 
   const bun = data.filter(item => item.type === Object.keys(tapList)[0])
   const sauce = data.filter(item => item.type === Object.keys(tapList)[1])
   const main = data.filter(item => item.type === Object.keys(tapList)[2] )
+  
   const scrollTab = item => {
     document.getElementById(item).scrollIntoView({ behavior: 'smooth' });
   }

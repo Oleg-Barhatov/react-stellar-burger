@@ -1,43 +1,50 @@
 import styles from './burger-constructor.module.css'
-import { useContext, useState, useEffect, useReducer}  from 'react'
+import { useMemo}  from 'react'
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorItem from './constructor-item/constructor-item';
 import Bun from './constructor-bun/constructor-bun';
-import { BurgerIngredientsContext } from '../../services/appContext';
 import { getNumOrder } from '../../utils/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredient, getPrice } from '../../utils/selectors';
+import { PRICE_SUM_BUN, PRICE_SUM_FILLING } from '../../services/totalPrice/totalPriceAction';
 
-const initialState = {total: 0 };
-
-function reducer(state, action) {
-  const bun = action.bun ? action.bun.price * 2 : initialState.total
-  const filling = action.fillings.reduce((previousValue, filling) => previousValue + filling.price, initialState.total)
-  return  { total: filling + bun }
-}
 
 function BurgerConstructor () {
-  const {ingredient, visible, setVisible, setStateOrder, setIngredient} = useContext(BurgerIngredientsContext)
-  const [stateTotal, dispatchTotal] = useReducer(reducer, initialState);
-  const [stateButton, setStateButton] = useState(false)
 
-  const activeButton = () => {
-    if (ingredient.bun !== null && ingredient.fillings.length !== 0) {
-      return setStateButton(true)
-    }
-  }
+  const ingredient = useSelector(getIngredient)
+  const totalPrice = useSelector(getPrice)
 
-  useEffect(() => {
-    dispatchTotal(ingredient)
-    activeButton()
+  const bun = ingredient.bun
+  const fillings = ingredient.fillings
+
+  const dispatch = useDispatch()
+ 
+  useMemo(() => {
+     bun
+      ? dispatch({ type: PRICE_SUM_BUN, payload: bun.price })
+      : dispatch({ type: PRICE_SUM_FILLING, payload: fillings.reduce((acc, filling) => acc + filling.price, 0) })
   }, [ingredient])
 
-  const getOrder = () => {
-    const filingsId = ingredient.fillings.map(filling => filling._id)
-    const ingredientId = [ingredient.bun._id, filingsId, ingredient.bun._id].flat()
-    ingredient.bun !== null &&  getNumOrder(ingredientId)
-      .then(data => setStateOrder(data.order.number))
-      .catch(err => console.log(err))
-      .finally(() => setStateButton(false), setIngredient({ bun: null, fillings: [] }), setVisible(!visible) )
-  }
+ 
+  // const activeButton = () => {
+  //   if (ingredient.bun !== null && ingredient.fillings.length !== 0) {
+  //     return setStateButton(true)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   // dispatchTotal(ingredient)
+  //   activeButton()
+  // }, [ingredient])
+
+  // const getOrder = () => {
+  //   const filingsId = ingredient.fillings.map(filling => filling._id)
+  //   const ingredientId = [ingredient.bun._id, filingsId, ingredient.bun._id].flat()
+  //   ingredient.bun !== null &&  getNumOrder(ingredientId)
+  //     .then(data => setStateOrder(data.order.number))
+  //     .catch(err => console.log(err))
+  //     .finally(() => setStateButton(false), setIngredient({ bun: null, fillings: [] }), setVisible(!visible) )
+  // }
 
   return (
 
@@ -77,10 +84,10 @@ function BurgerConstructor () {
 
       <div className={`${styles.total} mt-6 mr-4`}>
         <div className={`${styles.container}`}>
-          <p className='text text_type_digits-medium'>{stateTotal.total}</p>
+          <p className='text text_type_digits-medium'>{totalPrice}</p>
           <CurrencyIcon type="primary"/>
         </div>
-        <Button htmlType="button" type="primary" size="large" disabled={!stateButton} onClick={getOrder}>
+        <Button htmlType="button" type="primary" size="large" disabled={true} onClick={1}>
           Оформить заказ
         </Button>
       </div>
