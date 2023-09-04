@@ -1,15 +1,15 @@
-import { GET_DATA_SUCCESS } from "./getDataAction";
+import { GET_ORDER_SUCCESS } from "./getOrderAction";
 
 const initialState = {
-  data: []
+  order: null
 }
 
 export const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case GET_DATA_SUCCESS: 
+  switch(action.type) {
+    case GET_ORDER_SUCCESS:
       return {
         ...state,
-        data:  action.payload,
+        order: action.payload,
       };
     default: return state
   }

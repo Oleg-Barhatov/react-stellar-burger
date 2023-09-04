@@ -4,7 +4,8 @@ import { reducer as preloadReducer } from './preload/preloadReducer';
 import { reducer as errorReducer } from './errorFetch/errorFetchReducer';
 import { reducer as modalReducer } from './modal/modalReducer';
 import { reducer as ingredientReducer } from './ingredient/ingredientReducer'
-import { reducer as totalPriceReducer } from './totalPrice/totalPriceReducer'
+import {reducer as orderReducer} from './getOrderDetails/getOrederReducer'
+
 
 export const rootReducer = combineReducers({
   data: dataReducer,
@@ -12,6 +13,5 @@ export const rootReducer = combineReducers({
   errorFetch: errorReducer,
   modal: modalReducer,
   ingredient: ingredientReducer,
-  totalPrice: totalPriceReducer,
-  
+  order: orderReducer,
 })

@@ -10,20 +10,17 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useSelector, useDispatch } from "react-redux";
 import { loadDataAction } from "../../services/getData/getDataAction";
-import { getData, getPreload, getErrorFetch, getModalVisible } from "../../utils/selectors";
-import { MODAL_CLOSE } from "../../services/modal/modalAction";
+import { getData, getPreload, getErrorFetch, getTypeModal } from "../../utils/selectors";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
-  // const [visible, setVisible] = useState(false);
-  // const [stateOrder, setStateOrder] = useState()
-
   const dispatch = useDispatch()
-
   const data = useSelector(getData);
   const preload = useSelector(getPreload);
   const errorFetch = useSelector(getErrorFetch);
-  const visible = useSelector(getModalVisible)
-
+  const typeModal = useSelector(getTypeModal)
 
   useEffect(() => {
     dispatch(loadDataAction())
@@ -53,14 +50,18 @@ function App() {
       { 
         !preload && data.length  &&
         <main className={styles.main}>
+          <DndProvider backend={HTML5Backend}>
             <BurgerIngredients   tapList={tapList}/>
             <BurgerConstructor/> 
+          </DndProvider>
         </main>
       }
-
-      <Modal visible={visible} closePopup={ () => dispatch({type: MODAL_CLOSE}) }>
-        <OrderDetails stateOrder={1}/>
-      </Modal>
+      {
+        <Modal>
+          { typeModal === 'OrderDetails' && <OrderDetails/>}
+          { typeModal === 'IngredientDetails' && <IngredientDetails/> } 
+        </Modal>
+      }
     </div>
   );
 }

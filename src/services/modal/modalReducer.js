@@ -1,7 +1,9 @@
-import { MODAL_OPEN, MODAL_CLOSE } from "./modalAction";
+import { MODAL_OPEN, MODAL_CLOSE, MODAL_ID } from "./modalAction";
 
 const initialState = {
-  visible: false
+  visible: false,
+  type: '',
+  id: '',
 }
 
 export const reducer = (state = initialState, action) => {
@@ -9,13 +11,20 @@ export const reducer = (state = initialState, action) => {
     case MODAL_OPEN:
       return {
         ...state,
-        visible: true
+        visible: true,
+        type: action.payload,
       }
     case MODAL_CLOSE:
         return {
           ...state,
-          visible: false
-      };
+          visible: false,
+          type: '',
+        };
+    case MODAL_ID: 
+      return {
+        ...state,
+        id: action.payload,
+      }  
     default: return state
   }
 }

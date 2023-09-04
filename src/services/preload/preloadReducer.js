@@ -1,7 +1,8 @@
 import { PRELOAD_FALSE, PRELOAD_TRUE } from "./preloadActions";
 
 const  initialState = {
-  preload: false
+  preload: false,
+  preloadModal: false,
 }
 
 export const reducer = (state = initialState, action) => {

@@ -29,7 +29,7 @@ const Modal = ({children}) => {
     document.addEventListener('keydown', closePopupEsc);
 
     return () => document.removeEventListener('keydown', closePopupEsc);
-  }, [dispatch, closePopup]);
+  }, [dispatch, visible]);
 
   return createPortal(
     <>
@@ -46,8 +46,6 @@ const Modal = ({children}) => {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  closePopup: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired,
 };
 
 export default Modal;

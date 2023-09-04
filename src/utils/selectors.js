@@ -1,6 +1,9 @@
 export const getData = store => store.data.data;
 export const getPreload = store => store.preload.preload;
+export const preloadModal = store => store.preload.preloadModal;
 export const getErrorFetch = store => store.errorFetch.errorFetch;
 export const getModalVisible = store  => store.modal.visible;
 export const getIngredient = store => store.ingredient;
-export const getPrice =  store => store.totalPrice.totalPrice
+export const getTypeModal = store => store.modal.type;
+export const getId = store => store.modal.id;
+export const getOrder = store => store.order.order;

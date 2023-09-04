@@ -1,54 +1,82 @@
 import styles from './burger-constructor.module.css'
-import { useMemo}  from 'react'
+import { useCallback, useMemo}  from 'react'
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorItem from './constructor-item/constructor-item';
 import Bun from './constructor-bun/constructor-bun';
-import { getNumOrder } from '../../utils/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredient, getPrice } from '../../utils/selectors';
-import { PRICE_SUM_BUN, PRICE_SUM_FILLING } from '../../services/totalPrice/totalPriceAction';
-
+import { getIngredient} from '../../utils/selectors';
+import { loadOrderDetails } from '../../services/getOrderDetails/getOrderAction';
+import { useDrop } from "react-dnd";
+import { ADD_BUN, ADD_FILLING, MOVE_INGREDIENT } from '../../services/ingredient/ingredientAction';
 
 function BurgerConstructor () {
 
+  const dispatch = useDispatch()
+
   const ingredient = useSelector(getIngredient)
-  const totalPrice = useSelector(getPrice)
 
   const bun = ingredient.bun
   const fillings = ingredient.fillings
 
-  const dispatch = useDispatch()
- 
-  useMemo(() => {
-     bun
-      ? dispatch({ type: PRICE_SUM_BUN, payload: bun.price })
-      : dispatch({ type: PRICE_SUM_FILLING, payload: fillings.reduce((acc, filling) => acc + filling.price, 0) })
-  }, [ingredient])
+  const totalPrice = useMemo(() => {
+    const bunPrice = bun ? bun.price * 2 : 0
+    const fillingPrice = fillings.reduce((acc, filling) => acc + filling.price, 0)
 
- 
-  // const activeButton = () => {
-  //   if (ingredient.bun !== null && ingredient.fillings.length !== 0) {
-  //     return setStateButton(true)
-  //   }
-  // }
+    return  fillingPrice + bunPrice 
+     
+  }, [bun, fillings])
 
-  // useEffect(() => {
-  //   // dispatchTotal(ingredient)
-  //   activeButton()
-  // }, [ingredient])
+  const activeButton = () =>  bun === null  ? true : false 
 
-  // const getOrder = () => {
-  //   const filingsId = ingredient.fillings.map(filling => filling._id)
-  //   const ingredientId = [ingredient.bun._id, filingsId, ingredient.bun._id].flat()
-  //   ingredient.bun !== null &&  getNumOrder(ingredientId)
-  //     .then(data => setStateOrder(data.order.number))
-  //     .catch(err => console.log(err))
-  //     .finally(() => setStateButton(false), setIngredient({ bun: null, fillings: [] }), setVisible(!visible) )
-  // }
+  const getOrder = () => {
+    const filingsId = fillings.map(filling => filling._id);
+    const ingredientId = [bun._id, filingsId, bun._id].flat();
+
+    dispatch(loadOrderDetails(ingredientId));
+  }
+
+  const [, dropTarget] = useDrop({
+    accept: ['bun', 'sauce', 'main'],
+    drop: (data) => {
+      if (data.type === 'bun') {
+      dispatch({
+        type: ADD_BUN,
+        payload: data,
+      });
+    } else {
+      dispatch({type: ADD_FILLING, payload: data})
+    }},
+    collect: monitor => ({
+      canDrop: monitor.canDrop(),
+    })
+  });
+
+  const moveCard = useCallback ((dragIndex, hoverIndex) => {
+    dispatch({
+      type: MOVE_INGREDIENT,
+      payload: {
+        dragIndex: dragIndex,
+        hoverIndex: hoverIndex,
+      } 
+    });
+  }, [dispatch]);
+
+  const renderCard = useCallback((data, index) => {
+    return (
+      <ConstructorItem
+        data={data}
+        key={data.key}
+        index={index}
+        id={data._id}
+        moveCard={moveCard}
+      />
+    )
+  }, [moveCard])
+
 
   return (
 
-    <section className={`${styles.section} pt-25`}>
+    <section className={`${styles.section} pt-25`} ref={dropTarget}>
 
       {
         ingredient.bun 
@@ -63,7 +91,7 @@ function BurgerConstructor () {
       <ul className={`${styles.ul} custom-scroll`}>
         { 
           ingredient.fillings.length > 0 
-            ? (ingredient.fillings.map(data => <ConstructorItem data={data} key={data.key}/>)) 
+            ? (ingredient.fillings.map((data, index) => renderCard(data, index))) 
             : (
                 <div className={styles.fillings}>
                   <p className='text_type_main-default text_color_inactive'>Перенесите ингредиенты</p>
@@ -87,7 +115,7 @@ function BurgerConstructor () {
           <p className='text text_type_digits-medium'>{totalPrice}</p>
           <CurrencyIcon type="primary"/>
         </div>
-        <Button htmlType="button" type="primary" size="large" disabled={true} onClick={1}>
+        <Button htmlType="button" type="primary" size="large" disabled={activeButton()} onClick={getOrder}>
           Оформить заказ
         </Button>
       </div>
