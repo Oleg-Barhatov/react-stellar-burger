@@ -8,6 +8,7 @@ import { getData } from '../../utils/selectors';
 import { useInView } from 'react-intersection-observer'
 
 
+
 function BurgerIngredients ({ tapList}) {
 
   const data = useSelector(getData)

@@ -8,6 +8,7 @@ import { getIngredient} from '../../utils/selectors';
 import { loadOrderDetails } from '../../services/getOrderDetails/getOrderAction';
 import { useDrop } from "react-dnd";
 import { ADD_BUN, ADD_FILLING, MOVE_INGREDIENT } from '../../services/ingredient/ingredientAction';
+import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor () {
 
@@ -41,10 +42,13 @@ function BurgerConstructor () {
       if (data.type === 'bun') {
       dispatch({
         type: ADD_BUN,
-        payload: data,
+        payload: {...data, key: uuidv4()},
       });
     } else {
-      dispatch({type: ADD_FILLING, payload: data})
+      dispatch({
+        type: ADD_FILLING, 
+        payload: {...data, key: uuidv4()},
+      })
     }},
     collect: monitor => ({
       canDrop: monitor.canDrop(),

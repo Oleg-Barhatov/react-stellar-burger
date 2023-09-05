@@ -1,5 +1,5 @@
 import {ADD_FILLING, ADD_BUN, CLEAR_AREA_BURGER, MOVE_INGREDIENT, DELETE_INGREDIENT} from './ingredientAction'
-import { v4 as uuidv4 } from 'uuid';
+
 
 const initialState = {
     bun: null, 
@@ -11,14 +11,14 @@ export const reducer = (state = initialState, action) => {
     case ADD_BUN:
       return {
         ...state,
-        bun: {...action.payload, key: uuidv4()}
+        bun: action.payload
       };
     case ADD_FILLING:
       return {
         ...state,
         fillings: [
           ...state.fillings,
-          {...action.payload, key: uuidv4()},
+          action.payload,
         ]
       };
     case CLEAR_AREA_BURGER:
