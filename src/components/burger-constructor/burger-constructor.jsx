@@ -86,7 +86,7 @@ function BurgerConstructor () {
         ingredient.bun 
           ? (<Bun position='top' data={ingredient.bun}/>) 
           : (
-              <div className={styles.bun}>
+              <div className={styles.bun} >
                 <p className='text_type_main-default text_color_inactive'>Тут должна быть ваша булка</p>
               </div> 
             ) 
@@ -106,9 +106,9 @@ function BurgerConstructor () {
 
       {
         ingredient.bun 
-          ? (<Bun position='top' data={ingredient.bun}/>) 
+          ? (<Bun position='bottom' data={ingredient.bun}/>) 
           : (
-              <div className={styles.bun}>
+              <div className={styles.bun} style={{ borderRadius: '40px 40px 88px 88px'}}>
                 <p className='text_type_main-default text_color_inactive'>Тут должна быть ваша булка</p>
               </div> 
             ) 
