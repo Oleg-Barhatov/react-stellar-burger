@@ -1,40 +1,47 @@
 import styles from './ingredient-item.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DataPropType } from '../../../utils/prop-types';
-import Modal from '../../modal/modal';
-import IngredientDetails from '../../ingredient-details/ingredient-details';
-import {useState, useContext} from 'react'
-import { BurgerIngredientsContext } from '../../../services/appContext';
-import { v4 as uuidv4 } from 'uuid';
+import { useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { MODAL_OPEN, MODAL_ID } from '../../../services/modal/modalAction';
+import { getIngredient } from '../../../utils/selectors';
+import { useDrag } from 'react-dnd';
 
 function IngredientItem ({data}) {
-  const [visible, setVisible] = useState(false);
-  const {ingredient, setIngredient} = useContext(BurgerIngredientsContext)
 
-  const addIngredient = () => {
-    if (data.type === 'bun') {
-      setIngredient({
-        ...ingredient,
-        bun: {...data, key: uuidv4()},
-      });
-    } else  {
-      setIngredient({
-        ...ingredient,
-        fillings: [
-          ...ingredient.fillings,
-          {...data, key: uuidv4()},
-        ]
-      });
-    }}
-  
+  const ingredient = useSelector(getIngredient)
+  const dispatch = useDispatch()
+
+  const onClick = () => {
+      dispatch({type: MODAL_ID, payload: data._id})
+      dispatch({type: MODAL_OPEN, payload: 'IngredientDetails'})
+  }
+
+  const [, dragRef] = useDrag({
+    type: data.type,
+    item:  data 
+});
+
+  const count = useMemo(() => {
+    const bun = ingredient.bun ? ingredient.bun : 0;
+    const fillings = ingredient.fillings ? ingredient.fillings : 0;
+
+    if (bun  && fillings ) {
+
+      const filingsId = fillings.map(filling => filling._id);
+      const ingredientId = [bun._id, filingsId, bun._id].flat();
+
+      return ingredientId.filter(id => id === data._id).length
+    }
+
+  },[ingredient, data._id])
+
   return (
     <>
-    
-      <li className={`${styles.li}`} onClick={addIngredient}>
-        <Counter className={`${styles.count}`} 
-                 count={1} 
+      <li className={`${styles.li}`} onClick={onClick} ref={dragRef}>
+        <Counter count={count} 
                  size="default" 
-                 extraClass="m-1"
+                 extraClass={`${styles.count} ${count && styles.visible} m-1`}
         />
         <img src={data.image} 
              alt={data.name} 
@@ -46,12 +53,6 @@ function IngredientItem ({data}) {
         </div>
         <p className={`${styles.paragraph} text text_type_main-default`}>{data.name}</p>
       </li>
-
-      <Modal visible={visible} closePopup={ () => setVisible(!visible) }>
-        <IngredientDetails data={data}/>
-      </Modal>
-      
-
     </>
   )
 }
