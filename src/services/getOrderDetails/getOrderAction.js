@@ -10,10 +10,10 @@ export const loadOrderDetails = (ingredientIdArray) => (dispatch) => {
         .then(data => 
           dispatch({ type: GET_ORDER_SUCCESS, payload: data.order.number }),
           dispatch({type: MODAL_OPEN, payload: "OrderDetails"}),
+          dispatch({ type: CLEAR_AREA_BURGER}),
         )
         .catch(err => dispatch({ type: FETCH_ERROR, payload: err}))
         .finally(() => 
-          dispatch({ type: CLEAR_AREA_BURGER}),
           dispatch({type: MODAL_OPEN, payload: "OrderDetails"}),
         )
 }
